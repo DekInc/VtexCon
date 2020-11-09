@@ -1,0 +1,15 @@
+C:\Users\Hilmer\Documents\vs\VtexCon\Testing\bin\Debug\Testing.exe.config
+C:\Users\Hilmer\Documents\vs\VtexCon\Testing\bin\Debug\Testing.exe
+C:\Users\Hilmer\Documents\vs\VtexCon\Testing\bin\Debug\Testing.pdb
+C:\Users\Hilmer\Documents\vs\VtexCon\Testing\bin\Debug\VtexCon.dll
+C:\Users\Hilmer\Documents\vs\VtexCon\Testing\bin\Debug\log4net.dll
+C:\Users\Hilmer\Documents\vs\VtexCon\Testing\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Hilmer\Documents\vs\VtexCon\Testing\bin\Debug\VtexCon.pdb
+C:\Users\Hilmer\Documents\vs\VtexCon\Testing\bin\Debug\VtexCon.dll.config
+C:\Users\Hilmer\Documents\vs\VtexCon\Testing\bin\Debug\log4net.xml
+C:\Users\Hilmer\Documents\vs\VtexCon\Testing\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Hilmer\Documents\vs\VtexCon\Testing\obj\Debug\Testing.csprojAssemblyReference.cache
+C:\Users\Hilmer\Documents\vs\VtexCon\Testing\obj\Debug\Testing.csproj.CoreCompileInputs.cache
+C:\Users\Hilmer\Documents\vs\VtexCon\Testing\obj\Debug\Testing.csproj.CopyComplete
+C:\Users\Hilmer\Documents\vs\VtexCon\Testing\obj\Debug\Testing.exe
+C:\Users\Hilmer\Documents\vs\VtexCon\Testing\obj\Debug\Testing.pdb
