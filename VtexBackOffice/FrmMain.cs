@@ -23,5 +23,10 @@ namespace VtexBackOffice {
             FrmBrands FrmBrandsO = new FrmBrands();
             FrmBrandsO.ShowDialog();
         }
+
+        private void BtnCatTree_Click(object sender, EventArgs e) {
+            FrmCatTree FrmCatTreeO = new FrmCatTree();
+            FrmCatTreeO.ShowDialog();
+        }
     }
 }

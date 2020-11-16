@@ -7,37 +7,37 @@ namespace VtexCon.Models {
     /// </summary>
     public class Brand {
         //Brand’s numerical identifier        
-        [JsonProperty("Id")]
+        [JsonProperty("id")]
         public int Id { get; set; }
         //Brand’s name
-        [JsonProperty("Name")]
+        [JsonProperty("name")]
         public string Name { get; set; }
         //Text used in meta description tag for Brand page
-        [JsonProperty("Text")]
+        [JsonProperty("text")]
         public string Text { get; set; }
         //Substitute words for the Brand
-        [JsonProperty("Keywords")]
+        [JsonProperty("keywords")]
         public string Keywords { get; set; }
         //Text used in title tag for Brand page
-        [JsonProperty("SiteTitle")]
+        [JsonProperty("siteTitle")]
         public string SiteTitle { get; set; }
         //If true, Brand page becomes available in store
-        [JsonProperty("Active")]
+        [JsonProperty("active")]
         public bool Active { get; set; }
         //If true, link to Brand page will be displayed in the home menu
-        [JsonProperty("MenuHome")]
+        [JsonProperty("menuHome")]
         public bool MenuHome { get; set; }
         //Shows the specific code for the AdWords remarketing platform
-        [JsonProperty("AdWordsRemarketingCode")]
+        [JsonProperty("adWordsRemarketingCode")]
         public string AdWordsRemarketingCode { get; set; }
         //Shows the specific code for the LomadeeCampaign
-        [JsonProperty("LomadeeCampaignCode")]
+        [JsonProperty("lomadeeCampaignCode")]
         public string LomadeeCampaignCode { get; set; }
         //Score for search sorting order
-        [JsonProperty("Score")]
+        [JsonProperty("score")]
         public object Score { get; set; }
         //Brand page slug
-        [JsonProperty("LinkId")]
+        [JsonProperty("linkId")]
         public string LinkId { get; set; }
     }
 }

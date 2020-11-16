@@ -1,6 +1,7 @@
 ﻿using log4net;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,37 +14,25 @@ namespace VtexCon {
         public ApiVtex() {
             HttpClientApiO = new HttpClientApi();
         }
-        public List<Brand> GetBrands() {
-            List<Brand> ListBrands = new List<Brand>();
-            ListBrands.Add(new Brand() {
-                Active = true,
-                Name = "PepsiCo",
-                Text = "PepsiCo",
-                Keywords = "Pepsi PepsiCo veneno",
-                SiteTitle = "PepsiCo",
-                MenuHome = true,
-                AdWordsRemarketingCode = "",
-                LomadeeCampaignCode = "",
-                Score = null,
-                LinkId = "PepsiCo"
-            });
-            ListBrands.Add(new Brand() {
-                Active = true,
-                Name = "The Coca-Cola Company",
-                Text = "The Coca-Cola Company",
-                Keywords = "The Coca cola veneno",
-                SiteTitle = "The Coca-Cola Company",
-                MenuHome = true,
-                AdWordsRemarketingCode = "",
-                LomadeeCampaignCode = "",
-                Score = null,
-                LinkId = "TheCocaColaCompany"
-            });
-            return ListBrands;
-            //return HttpClientApiO.GetDynamicList<Brand>(@"api/catalog_system/pvt/brand/list");
+        public List<Brand> GetBrands() {            
+            string GetBrandsApiStr = ConfigurationManager.AppSettings.Get("GetBrandsApiStr");
+            return HttpClientApiO.GetDynamicList<Brand>(GetBrandsApiStr);
         }
-        //public GetUsersModel GetUsers() {
-        //    return HttpClientApiO.GetDynamic<GetUsersModel>("users/");
-        //}        
+        public List<CategoryTree> GetCatTree(int Level) {
+            string GetCatTreeApiStr = $"{ConfigurationManager.AppSettings.Get("GetCatTreeApiStr")}{Level}";
+            return HttpClientApiO.GetDynamicList<CategoryTree>(GetCatTreeApiStr);
+        }
+        public Category GetCategoryInfo(string Id) {
+            string GetCategoryApiStr = $"{ConfigurationManager.AppSettings.Get("GetCategoryApiStr")}{Id}";
+            return HttpClientApiO.GetDynamic<Category>(GetCategoryApiStr);
+        }
+        public Category UpdateCategory(Category V) {
+            string UpdateCategoryApiStr = $"{ConfigurationManager.AppSettings.Get("UpdateCategoryApiStr")}{V.Id}";
+            return HttpClientApiO.PutDynamic<Category>(UpdateCategoryApiStr, V);
+        }
+        public Category CreateCategory(Category V) {
+            string CreateCategoryApiStr = $"{ConfigurationManager.AppSettings.Get("CreateCategoryApiStr")}";
+            return HttpClientApiO.PutDynamic<Category>(CreateCategoryApiStr, V);
+        }
     }
 }
