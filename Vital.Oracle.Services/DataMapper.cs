@@ -1,4 +1,5 @@
-﻿using System;
+﻿using log4net;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Dynamic;
@@ -12,11 +13,15 @@ namespace Vital.Oracle.Services
 {
     public static class DataMapper
     {
+        static readonly ILog Log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private static List<string> columns = new List<string>();
-
         public static IEnumerable<T> MapReaderToObjectList<T>(IDataReader reader) where T : new()
         {
             bool columnsChecked = false;
+            if (reader.IsClosed) {
+                Log.Error("Oracle reader is closed");
+                yield return default(T);
+            }
             while (reader.Read())
             {
                 if (!columnsChecked)
@@ -69,16 +74,31 @@ namespace Vital.Oracle.Services
                         {
                             if (reader[name].ToString() == "0" || reader[name].ToString().ToLower() == "false")
                             {
-                                property.SetValue(item, false, null);
+                                try {
+                                    property.SetValue(item, false, null);
+                                } catch (Exception E1) {
+                                    Common.LogError($"Error Mapper Oracle, columna {name}. {E1.ToString()}. {E1.StackTrace}");
+                                    throw new Exception($"Error Mapper Oracle, columna {name}. {E1.ToString()}. {E1.StackTrace}");
+                                }
                             }
                             else
                             {
-                                property.SetValue(item, true, null);
+                                try {
+                                    property.SetValue(item, true, null);
+                                } catch (Exception E1) {
+                                    Common.LogError($"Error Mapper Oracle, columna {name}. {E1.ToString()}. {E1.StackTrace}");
+                                    throw new Exception($"Error Mapper Oracle, columna {name}. {E1.ToString()}. {E1.StackTrace}");
+                                }
                             }
                         }
                         else
                         {
-                            property.SetValue(item, reader[name], null);
+                            try {
+                                property.SetValue(item, reader[name], null);
+                            } catch (Exception E1) {
+                                Common.LogError($"Error Mapper Oracle, columna {name}. {E1.ToString()}. {E1.StackTrace}");
+                                throw new Exception($"Error Mapper Oracle, columna {name}. {E1.ToString()}. {E1.StackTrace}");
+                            }
                         }
                     }
                 }

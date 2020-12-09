@@ -12,6 +12,6 @@ namespace VtexCon.Models {
         public List<string> FieldValues { get; set; }
         public bool IsFilter { get; set; }
         public int FieldGroupId { get; set; }
-        public string FieldGroupName { get; set; }
+        public string FieldGroupName { get; set; }        
     }
 }

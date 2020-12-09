@@ -3,13 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30621.155
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VitalVtexCon", "VitalVtexCon.csproj", "{E0368958-2057-4343-AEEB-313C0791308E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vital.VtexCon", "Vital.VtexCon.csproj", "{E0368958-2057-4343-AEEB-313C0791308E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vital.Testing", "Testing\Vital.Testing.csproj", "{B580FC2E-EB63-4ADC-BA8F-B811427AFBB7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vital.VtexBackOffice", "VtexBackOffice\Vital.VtexBackOffice.csproj", "{C3E81FEC-D7D7-4A00-B570-5EC9A5A95ABD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vital.Oracle.Services", "Vital.Oracle.Services\Vital.Oracle.Services.csproj", "{97C4655E-96EE-4420-B431-DA1D230B1688}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vital.VtexMainSync", "Vital.VtexMainSync\Vital.VtexMainSync.csproj", "{7C31E421-249A-4A4F-90C3-7BC25F2BB963}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vital.VtexBranchsSync", "Vital.VtexBranchSync\Vital.VtexBranchsSync.csproj", "{CEFA74F9-AE39-4D15-ADFB-544ED483980D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +55,22 @@ Global
 		{97C4655E-96EE-4420-B431-DA1D230B1688}.Release|Any CPU.Build.0 = Release|Any CPU
 		{97C4655E-96EE-4420-B431-DA1D230B1688}.Release|x86.ActiveCfg = Release|x86
 		{97C4655E-96EE-4420-B431-DA1D230B1688}.Release|x86.Build.0 = Release|x86
+		{7C31E421-249A-4A4F-90C3-7BC25F2BB963}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C31E421-249A-4A4F-90C3-7BC25F2BB963}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C31E421-249A-4A4F-90C3-7BC25F2BB963}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7C31E421-249A-4A4F-90C3-7BC25F2BB963}.Debug|x86.Build.0 = Debug|Any CPU
+		{7C31E421-249A-4A4F-90C3-7BC25F2BB963}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C31E421-249A-4A4F-90C3-7BC25F2BB963}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C31E421-249A-4A4F-90C3-7BC25F2BB963}.Release|x86.ActiveCfg = Release|Any CPU
+		{7C31E421-249A-4A4F-90C3-7BC25F2BB963}.Release|x86.Build.0 = Release|Any CPU
+		{CEFA74F9-AE39-4D15-ADFB-544ED483980D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CEFA74F9-AE39-4D15-ADFB-544ED483980D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CEFA74F9-AE39-4D15-ADFB-544ED483980D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CEFA74F9-AE39-4D15-ADFB-544ED483980D}.Debug|x86.Build.0 = Debug|Any CPU
+		{CEFA74F9-AE39-4D15-ADFB-544ED483980D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CEFA74F9-AE39-4D15-ADFB-544ED483980D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CEFA74F9-AE39-4D15-ADFB-544ED483980D}.Release|x86.ActiveCfg = Release|Any CPU
+		{CEFA74F9-AE39-4D15-ADFB-544ED483980D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

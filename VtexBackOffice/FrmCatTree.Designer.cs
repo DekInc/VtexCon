@@ -39,6 +39,7 @@
             this.BtnNew = new MetroFramework.Controls.MetroButton();
             this.BtnImportar = new MetroFramework.Controls.MetroButton();
             this.BtnExportar = new MetroFramework.Controls.MetroButton();
+            this.Status1 = new System.Windows.Forms.StatusStrip();
             ((System.ComponentModel.ISupportInitialize)(this.GridCatTree)).BeginInit();
             this.SuspendLayout();
             // 
@@ -121,7 +122,7 @@
             this.BtnImportar.Name = "BtnImportar";
             this.BtnImportar.Size = new System.Drawing.Size(112, 23);
             this.BtnImportar.TabIndex = 13;
-            this.BtnImportar.Text = "Importar";
+            this.BtnImportar.Text = "Importar Json";
             this.BtnImportar.UseSelectable = true;
             this.BtnImportar.Click += new System.EventHandler(this.BtnImportar_Click);
             // 
@@ -131,15 +132,23 @@
             this.BtnExportar.Name = "BtnExportar";
             this.BtnExportar.Size = new System.Drawing.Size(112, 23);
             this.BtnExportar.TabIndex = 14;
-            this.BtnExportar.Text = "Exportar";
+            this.BtnExportar.Text = "Exportar Json";
             this.BtnExportar.UseSelectable = true;
             this.BtnExportar.Click += new System.EventHandler(this.BtnExportar_Click);
+            // 
+            // Status1
+            // 
+            this.Status1.Location = new System.Drawing.Point(20, 603);
+            this.Status1.Name = "Status1";
+            this.Status1.Size = new System.Drawing.Size(1037, 22);
+            this.Status1.TabIndex = 15;
             // 
             // FrmCatTree
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1077, 645);
+            this.Controls.Add(this.Status1);
             this.Controls.Add(this.BtnExportar);
             this.Controls.Add(this.BtnImportar);
             this.Controls.Add(this.BtnNew);
@@ -153,6 +162,7 @@
             this.Load += new System.EventHandler(this.FrmCatTree_Load);
             ((System.ComponentModel.ISupportInitialize)(this.GridCatTree)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -167,5 +177,6 @@
         private MetroFramework.Controls.MetroButton BtnNew;
         private MetroFramework.Controls.MetroButton BtnImportar;
         private MetroFramework.Controls.MetroButton BtnExportar;
+        private System.Windows.Forms.StatusStrip Status1;
     }
 }

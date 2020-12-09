@@ -1,0 +1,15 @@
+C:\Users\HCampos_C\Documents\ws_vd\VtexCon\VtexCon\Vital.Oracle.Services\bin\Release\Vital.Oracle.Services.dll.config
+C:\Users\HCampos_C\Documents\ws_vd\VtexCon\VtexCon\Vital.Oracle.Services\bin\Release\Vital.Oracle.Services.dll
+C:\Users\HCampos_C\Documents\ws_vd\VtexCon\VtexCon\Vital.Oracle.Services\bin\Release\Vital.Oracle.Services.pdb
+C:\Users\HCampos_C\Documents\ws_vd\VtexCon\VtexCon\Vital.Oracle.Services\bin\Release\log4net.dll
+C:\Users\HCampos_C\Documents\ws_vd\VtexCon\VtexCon\Vital.Oracle.Services\bin\Release\Oracle.ManagedDataAccess.dll
+C:\Users\HCampos_C\Documents\ws_vd\VtexCon\VtexCon\Vital.Oracle.Services\bin\Release\VtexCon.dll
+C:\Users\HCampos_C\Documents\ws_vd\VtexCon\VtexCon\Vital.Oracle.Services\bin\Release\Newtonsoft.Json.dll
+C:\Users\HCampos_C\Documents\ws_vd\VtexCon\VtexCon\Vital.Oracle.Services\bin\Release\VtexCon.pdb
+C:\Users\HCampos_C\Documents\ws_vd\VtexCon\VtexCon\Vital.Oracle.Services\bin\Release\VtexCon.dll.config
+C:\Users\HCampos_C\Documents\ws_vd\VtexCon\VtexCon\Vital.Oracle.Services\bin\Release\log4net.xml
+C:\Users\HCampos_C\Documents\ws_vd\VtexCon\VtexCon\Vital.Oracle.Services\bin\Release\Newtonsoft.Json.xml
+C:\Users\HCampos_C\Documents\ws_vd\VtexCon\VtexCon\Vital.Oracle.Services\obj\Release\Vital.Oracle.Services.csprojAssemblyReference.cache
+C:\Users\HCampos_C\Documents\ws_vd\VtexCon\VtexCon\Vital.Oracle.Services\obj\Release\Vital.Oracle.Services.csproj.CopyComplete
+C:\Users\HCampos_C\Documents\ws_vd\VtexCon\VtexCon\Vital.Oracle.Services\obj\Release\Vital.Oracle.Services.dll
+C:\Users\HCampos_C\Documents\ws_vd\VtexCon\VtexCon\Vital.Oracle.Services\obj\Release\Vital.Oracle.Services.pdb

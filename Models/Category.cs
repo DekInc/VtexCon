@@ -16,7 +16,7 @@ namespace VtexCon.Models {
         public string Name { get; set; }
         //ID of the father category, apply in case of category and subcategory
         [JsonProperty("fatherCategoryId")]
-        public object FatherCategoryId { get; set; }
+        public int? FatherCategoryId { get; set; }
         //Category Title
         [JsonProperty("title")]
         public string Title { get; set; }

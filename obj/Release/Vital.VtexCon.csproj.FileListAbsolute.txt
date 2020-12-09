@@ -1,0 +1,11 @@
+C:\Users\HCampos_C\Documents\ws_vd\VtexCon\VtexCon\bin\Release\VtexCon.dll.config
+C:\Users\HCampos_C\Documents\ws_vd\VtexCon\VtexCon\bin\Release\VtexCon.dll
+C:\Users\HCampos_C\Documents\ws_vd\VtexCon\VtexCon\bin\Release\VtexCon.pdb
+C:\Users\HCampos_C\Documents\ws_vd\VtexCon\VtexCon\bin\Release\log4net.dll
+C:\Users\HCampos_C\Documents\ws_vd\VtexCon\VtexCon\bin\Release\Newtonsoft.Json.dll
+C:\Users\HCampos_C\Documents\ws_vd\VtexCon\VtexCon\bin\Release\log4net.xml
+C:\Users\HCampos_C\Documents\ws_vd\VtexCon\VtexCon\bin\Release\Newtonsoft.Json.xml
+C:\Users\HCampos_C\Documents\ws_vd\VtexCon\VtexCon\obj\Release\Vital.VtexCon.csprojAssemblyReference.cache
+C:\Users\HCampos_C\Documents\ws_vd\VtexCon\VtexCon\obj\Release\Vital.VtexCon.csproj.CopyComplete
+C:\Users\HCampos_C\Documents\ws_vd\VtexCon\VtexCon\obj\Release\VtexCon.dll
+C:\Users\HCampos_C\Documents\ws_vd\VtexCon\VtexCon\obj\Release\VtexCon.pdb

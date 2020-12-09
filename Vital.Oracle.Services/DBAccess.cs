@@ -9,11 +9,13 @@ using System.Threading.Tasks;
 using Vital.Oracle.Services.Logging;
 using Vital.Oracle.Services.Extensions;
 using Oracle.ManagedDataAccess.Client;
+using log4net;
 
 namespace Vital.Oracle.Services
 {
     public class DBAccess : IDisposable
     {
+        static readonly ILog Log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public IDbConnection _connection;
 
         protected IDbProvider _provider;
@@ -35,14 +37,14 @@ namespace Vital.Oracle.Services
         public DBAccess(string connectionString, IDbProvider provider, bool handleException)
         {
             this._handleException = handleException;
-
             this.Parameters = new ConcurrentDictionary<string, object>();
-
             _provider = provider ?? new OracleProvider();
-
             _connection = _provider.GetConnection(connectionString);
-
-            this.OpenConnection();
+            try {
+                this.OpenConnection();
+            } catch (Exception E) {
+                Log.Error(E.ToString());
+            }
         }
 
         internal DBAccess(bool handleException)
@@ -55,22 +57,16 @@ namespace Vital.Oracle.Services
         {
             try
             {
-                var cmd = BuildCommand(packageName, parameters);
-
+                IDbCommand cmd = BuildCommand(packageName, parameters);
                 int result = 0;
-
-                using (var pc = new PerformanceTracker(packageName + " - " + parameters.ToText()))
-                {
+                using (PerformanceTracker pc = new PerformanceTracker(packageName + " - " + parameters.ToText()))
                     result = cmd.ExecuteNonQuery();
-                }
-
                 PopulateParameters(cmd);
-
                 return result;
             }
             catch (Exception ex)
             {
-                Logger.Write("<int>ExecuteNonQuery", "Exception", ex.Message + " " + ex.StackTrace);
+                Common.LogError(ex.ToString() + " _ ExecuteNonQuery _ " + ex.StackTrace);
                 if (this is DBTransactionalAccess)
                 {
                     ((DBTransactionalAccess)this).Rollback();
@@ -79,7 +75,6 @@ namespace Vital.Oracle.Services
                 {
                     ExceptionThrowed(this, ex);
                 }
-
                 return ERROR_CODE;
             }
         }
@@ -163,35 +158,29 @@ namespace Vital.Oracle.Services
             }
         }
 
-        public IEnumerable<T> ExecuteReaderToObject<T>(string packageName, params DbParameter[] parameters) where T : new()
+        public List<T> ExecuteReaderToObject<T>(string packageName, params DbParameter[] parameters) where T : new()
         {
             try
             {
-                var cmd = BuildCommand(packageName, parameters);
-
-                var reader = cmd.ExecuteReader();
-
+                IDbCommand cmd = BuildCommand(packageName, parameters);
+                IDataReader reader = cmd.ExecuteReader();
                 PopulateParameters(cmd);
-
-                IEnumerable<T> result = null;
-
-                using (var pc = new PerformanceTracker(packageName + " - " + parameters.ToText()))
+                List<T> result = null;
+                using (PerformanceTracker pc = new PerformanceTracker(packageName + " - " + parameters.ToText()))
                 {
-                    result = DataMapper.MapReaderToObjectList<T>(reader);
+                    result = DataMapper.MapReaderToObjectList<T>(reader).ToList();
                 }
-
                 return result;
-
             }
             catch (Exception ex)
             {
-                Logger.Write("<IEnumerable<T>>ExecuteReaderToObject", "Exception", ex.Message + " " + ex.StackTrace);
+                Log.Error(ex.ToString() + " _ " + ex.StackTrace);
+                Common.LogError(ex.ToString() + " _ ExecuteReaderToObject _ " + ex.StackTrace);
                 if (_handleException)
                 {
                 }
-
-                    ExceptionThrowed(this, ex);
-                return default(IEnumerable<T>);
+                ExceptionThrowed(this, ex);
+                return default(List<T>);
             }
         }
 
@@ -244,12 +233,35 @@ namespace Vital.Oracle.Services
             }
             catch (Exception ex)
             {
-                Logger.Write("<dymanic>ExecuteReaderToDynamic", "Exception", ex.Message + " " + ex.StackTrace);
+                Common.LogError("<dymanic>ExecuteReaderToDynamic. " + ex.Message + " " + ex.StackTrace);
                 if (_handleException)
                 {
                     ExceptionThrowed(this, ex);
                 }
 
+                return null;
+            }
+        }
+        public dynamic ExecuteReaderToDynamicNative(string packageName, ref OracleParameterCollection OracleParams) {
+            try {
+                IDbCommand cmd = _provider.GetCommand(packageName, this._connection);
+                cmd.Transaction = GetTransaction();
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;                
+                foreach (OracleParameter OraPara in OracleParams)
+                    cmd.Parameters.Add(OraPara.Clone());
+                var reader = cmd.ExecuteReader();
+                PopulateParameters(cmd);
+                dynamic result;
+                using (var pc = new PerformanceTracker(packageName))
+                    result = DataMapper.MapReaderToDynamicList(reader);
+                OracleParams.Clear();
+                foreach (OracleParameter OraPara in cmd.Parameters)
+                    OracleParams.Add(OraPara.Clone());
+                return result;
+            } catch (Exception ex) {
+                Common.LogError("<dymanic>ExecuteReaderToDynamicNative. " + ex.Message + " " + ex.StackTrace);
+                if (_handleException)
+                    ExceptionThrowed(this, ex);
                 return null;
             }
         }
@@ -330,17 +342,13 @@ namespace Vital.Oracle.Services
 
         protected IDbCommand BuildCommand(string packageName, DbParameter[] parameters)
         {
-            var cmd = _provider.GetCommand(packageName, this._connection);
-
+            IDbCommand cmd = _provider.GetCommand(packageName, this._connection);
             cmd.Transaction = GetTransaction();
-
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-
             if (parameters != null)
             {
                 parameters.ToList().ForEach(p => cmd.Parameters.Add(p));
             }
-
             return cmd;
         }
 
@@ -367,14 +375,9 @@ namespace Vital.Oracle.Services
         protected void PopulateParameters(IDbCommand cmd)
         {
             this.Parameters = new ConcurrentDictionary<string, object>();
-
             if (cmd != null && cmd.Parameters != null)
-            {
                 foreach (DbParameter parameter in cmd.Parameters)
-                {
                     this.Parameters.AddOrUpdate(parameter.ParameterName, parameter.Value, (key, oldValue) => oldValue = parameter.Value);
-                }
-            }
         }
 
         protected void OpenConnection()
@@ -404,7 +407,7 @@ namespace Vital.Oracle.Services
             }
             catch(Exception ex)
             {
-                Logger.Write("OpenConnection", "Exception", ex.Message + " " + ex.StackTrace);
+                Log.Error(ex.ToString());
                 if (_handleException)
                 {
                     // Se registra el error al realizar la consulta, no es necesario registrar también error de conexión.

@@ -1,4 +1,5 @@
-﻿using Oracle.ManagedDataAccess.Client;
+﻿using log4net;
+using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -14,25 +15,26 @@ namespace Vital.Oracle.Services
     public class OracleProvider : IDbProvider
     {
         public const string ConnectionStringName = "OracleCN";
-
+        static readonly ILog Log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private string ConnectionString { get; set; }
 
         public IDbConnection GetConnection(string connectionString = null)
         {
+            try {
 #if DEBUG
-            if (connectionString == null && ConfigurationManager.ConnectionStrings[OracleProvider.ConnectionStringName] == null)
-            {
-                this.ConnectionString = "Data Source=develop;User Id=posapp;Password=posapp;";
-            }
-            else
-            {
-                this.ConnectionString = connectionString ?? ConfigurationManager.ConnectionStrings[OracleProvider.ConnectionStringName].ConnectionString;
-            }
+                if (connectionString == null && ConfigurationManager.ConnectionStrings[OracleProvider.ConnectionStringName] == null) {
+                    this.ConnectionString = "Data Source=develop;User Id=posapp;Password=posapp;";
+                } else {
+                    this.ConnectionString = connectionString ?? ConfigurationManager.ConnectionStrings[OracleProvider.ConnectionStringName].ConnectionString;
+                }
 #else
             this.ConnectionString = StringCipher.Decrypt(connectionString ??
                                         ConfigurationManager.ConnectionStrings[OracleProvider.ConnectionStringName].ConnectionString, StringCipher.SALT);
 
 #endif
+            } catch (Exception E) {
+                Log.Error(E.ToString());
+            }
             return new OracleConnection(this.ConnectionString);
         }
 

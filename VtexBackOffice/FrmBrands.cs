@@ -24,7 +24,7 @@ namespace VtexBackOffice {
         }
 
         private void FrmBrands_Load(object sender, EventArgs e) {
-            ApiVtexO = new ApiVtex();
+            ApiVtexO = new ApiVtex(0, "", "", "");
             TmrLoad.Start();
         }
 

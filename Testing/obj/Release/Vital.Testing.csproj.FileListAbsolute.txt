@@ -1,0 +1,14 @@
+C:\Users\HCampos_C\Documents\ws_vd\VtexCon\VtexCon\Testing\bin\Release\Testing.exe.config
+C:\Users\HCampos_C\Documents\ws_vd\VtexCon\VtexCon\Testing\bin\Release\Testing.exe
+C:\Users\HCampos_C\Documents\ws_vd\VtexCon\VtexCon\Testing\bin\Release\Testing.pdb
+C:\Users\HCampos_C\Documents\ws_vd\VtexCon\VtexCon\Testing\bin\Release\VtexCon.dll
+C:\Users\HCampos_C\Documents\ws_vd\VtexCon\VtexCon\Testing\bin\Release\log4net.dll
+C:\Users\HCampos_C\Documents\ws_vd\VtexCon\VtexCon\Testing\bin\Release\Newtonsoft.Json.dll
+C:\Users\HCampos_C\Documents\ws_vd\VtexCon\VtexCon\Testing\bin\Release\VtexCon.pdb
+C:\Users\HCampos_C\Documents\ws_vd\VtexCon\VtexCon\Testing\bin\Release\VtexCon.dll.config
+C:\Users\HCampos_C\Documents\ws_vd\VtexCon\VtexCon\Testing\bin\Release\log4net.xml
+C:\Users\HCampos_C\Documents\ws_vd\VtexCon\VtexCon\Testing\bin\Release\Newtonsoft.Json.xml
+C:\Users\HCampos_C\Documents\ws_vd\VtexCon\VtexCon\Testing\obj\Release\Vital.Testing.csprojAssemblyReference.cache
+C:\Users\HCampos_C\Documents\ws_vd\VtexCon\VtexCon\Testing\obj\Release\Vital.Testing.csproj.CopyComplete
+C:\Users\HCampos_C\Documents\ws_vd\VtexCon\VtexCon\Testing\obj\Release\Testing.exe
+C:\Users\HCampos_C\Documents\ws_vd\VtexCon\VtexCon\Testing\obj\Release\Testing.pdb

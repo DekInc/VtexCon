@@ -13,17 +13,19 @@ using MetroFramework.Forms;
 using Newtonsoft.Json;
 using VtexCon;
 using VtexCon.Models;
-
+using Vital.Oracle;
+using VtexCon.ModelsOra.Model;
 
 namespace VtexBackOffice {
     public partial class FrmCatTree : MetroForm {
         public ApiVtex ApiVtexO { get; set; }
         public List<CategoryTree> ListCatTree { get; set; }
         public List<Category> ListCatTreeNormal { get; set; }
+        public List<VtexCatalog> ListCatOracle { get; set; }
         public List<string> ListCols { get; set; }
         public FrmCatTree() {
             InitializeComponent();
-            ApiVtexO = new ApiVtex();
+            ApiVtexO = new ApiVtex(0, "", "", "");
         }
 
         private void TmrLoad_Tick(object sender, EventArgs e) {
@@ -62,7 +64,23 @@ namespace VtexBackOffice {
                 ConstructNormalTree4Export(MainNodeSub, Sub.Children);
             }
         }
-
+        private void ConstructOracleTree4Export() {
+            ListCatOracle = new List<VtexCatalog>();
+            foreach (Category AllCat in ListCatTreeNormal) {
+                if (ListCatTreeNormal.Where(O => Convert.ToInt32(O.FatherCategoryId) == AllCat.Id).Count() == 0) {
+                    Category CatFather = ListCatTreeNormal.Where(O => O.Id == AllCat.FatherCategoryId).FirstOrDefault();
+                    Category CatFatherFather = ListCatTreeNormal.Where(O => O.Id == CatFather.FatherCategoryId).FirstOrDefault();
+                    ListCatOracle.Add(new VtexCatalog() {
+                        SubCategoryId = AllCat.Id.Value,
+                        SubCategoryName = AllCat.Name,
+                        CategoryId = CatFather.Id.Value,
+                        CategoryName = CatFather.Name,
+                        DepartmentId = CatFatherFather.Id.Value,
+                        DepartmentName = CatFatherFather.Name
+                    });
+                }
+            }
+        }        
         private void FrmCatTree_Load(object sender, EventArgs e) {
             TmrLoad.Start();
         }
@@ -71,8 +89,10 @@ namespace VtexBackOffice {
             TreeNodeCollection MainNode = CatTree1.Nodes;
             PbExport.Value = 0;
             PbExport.Maximum = ListCatTree.Count;
+            Status1.Text = "Creating Normal Tree";
             ConstructNormalTree4Export(MainNode, ListCatTree);
-            StreamWriter ExcelOut = new StreamWriter("CatTree.csv", false, Encoding.UTF8);
+            Status1.Text = "Exporting Normal Tree";
+            StreamWriter ExcelOut = new StreamWriter($"CatTree{DateTime.Now.Hour}{DateTime.Now.Minute}{DateTime.Now.Second}.csv", false, Encoding.UTF8);
             ListCols = new List<string>();
             foreach (PropertyInfo PropCol in (typeof(Category)).GetProperties()) {
                 ListCols.Add(PropCol.Name);
@@ -89,6 +109,27 @@ namespace VtexBackOffice {
                 ExcelOut.WriteLine("");
             }
             ExcelOut.Close();
+            Status1.Text = "Exporting Oracle tree";
+            ConstructOracleTree4Export();
+            Status1.Text = "Exporting Normal Tree";
+            StreamWriter ExcelOut2 = new StreamWriter($"CatTreeOracle{DateTime.Now.Hour}{DateTime.Now.Minute}{DateTime.Now.Second}.csv", false, Encoding.UTF8);
+            ListCols = new List<string>();
+            foreach (PropertyInfo PropCol in (typeof(VtexCatalog)).GetProperties()) {
+                ListCols.Add(PropCol.Name);
+                ExcelOut2.Write(PropCol.Name + "Ç");
+            }
+            ExcelOut2.WriteLine("");
+            PbExport.Value = 0;
+            PbExport.Maximum = ListCatOracle.Count;
+            for (int i = 0; i < ListCatOracle.Count; i++) {
+                PbExport.Value++;
+                foreach (string PropCol in ListCols) {
+                    ExcelOut2.Write(ListCatOracle[i].GetType().GetProperty(PropCol).GetValue(ListCatOracle[i]) + "Ç");
+                }
+                ExcelOut2.WriteLine("");
+            }
+            ExcelOut2.Close();
+            Commons.MsjInfo("End");
         }
 
         private void CatTree1_AfterSelect(object sender, TreeViewEventArgs e) {
@@ -116,7 +157,7 @@ namespace VtexBackOffice {
             PbExport.Value = 0;
             PbExport.Maximum = ListCatTree.Count;
             ConstructNormalTree4Export(MainNode, ListCatTree);
-            StreamWriter JsonOut = new StreamWriter("Categories.json", false, Encoding.UTF8);
+            StreamWriter JsonOut = new StreamWriter($"Categories{DateTime.Now.Hour}{DateTime.Now.Minute}{DateTime.Now.Second}.json", false, Encoding.UTF8);
             JsonOut.Write(JsonConvert.SerializeObject(ListCatTreeNormal));
             JsonOut.Close();
         }

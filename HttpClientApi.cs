@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -11,25 +12,32 @@ using System.Threading.Tasks;
 
 namespace VtexCon
 {
-    /// QA 
-//    Vital2020QA
-//vtexappkey-arvitalqa-FMOQTV
-//AMOHYRRKEIUJSHVZAWOCOXZFDMSTTICRJIEQLNBNRLQSOXUZJFLZEIIDNIELZXRWFDZJCFOMVALCGGQFRSJNXCMBZBCCJPNUUUNLXKWERZEDXGWGSYTHNDZCQYKBCMCF
-
-
-//QATR
-//keymaster0311
-//vtexappkey-arvitalqatr-ZLVYUS
-//GKDQNNSYRRDDDILAUZOQPKJFVCGWCUKLSRGZBPIWBPVNKPIYSPFBSCCVAYUKHVVWHRLLCLYEQSOAPWUFUHENPJTPPKZDUYOGTYGSEXWGQAKZOCGDDPQZQIHXXVVSMVKS
-
-
-//QALH
-//keymaster0311_v2
-//vtexappkey-arvitalqalh-EQXSPP
-//FCFDKEOROQVGILRASPAZEVWAVAZTNVWBTIRCMBBXAEOBNMMDOCPYFGQJGEHJFVETUTNZTONRODZZGVNJOVELFXWNRIWHTSREAVGTZMKZOXKCGRCLRYVJQSNWXZILSGYV
     public class HttpClientApi {
         static readonly ILog Log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        int WsTimeout { get; set; }
+        string BaseEndPoint { get; set; }
+        string VTexMainApiAppKey { get; set; }
+        string VTexMainApiAppPassword { get; set; }
+        public string LastHttpError { get; set; }
+        public HttpClientApi(short Typ, string _BaseEndPoint, string _VTexMainApiAppKey, string _VTexMainApiAppPassword) {
+            if (Typ == 0)
+                BaseEndPoint = ConfigurationManager.AppSettings["MainEndPoint"].Replace("arvitalqa", _BaseEndPoint);
+            else
+                BaseEndPoint = string.Format(ConfigurationManager.AppSettings["MainEndPoint2"], _BaseEndPoint);
+            WsTimeout = Convert.ToInt32(ConfigurationManager.AppSettings["WsTimeout"]);
+            VTexMainApiAppKey = _VTexMainApiAppKey;
+            VTexMainApiAppPassword = _VTexMainApiAppPassword;
+        }
+        private void SetNormalHeaders(ref HttpWebRequest WebRequest) {
+            WebRequest.ServicePoint.Expect100Continue = false;
+            WebRequest.Timeout = WsTimeout;
+            WebRequest.Headers.Add("X-VTEX-API-AppKey", VTexMainApiAppKey);
+            WebRequest.Headers.Add("X-VTEX-API-AppToken", VTexMainApiAppPassword);
+            WebRequest.ContentType = "application/json; charset=utf-8";
+            WebRequest.Accept = "application/json";
+        }
         void SetSsl() {
+            LastHttpError = string.Empty;
             try { //try TLS 1.3
                 ServicePointManager.SecurityProtocol = (SecurityProtocolType)12288
                                                      | (SecurityProtocolType)3072
@@ -51,20 +59,12 @@ namespace VtexCon
             }
         }
         public T GetDynamic<T>(string Method) {
-            string EndPoint = ConfigurationManager.AppSettings["MainEndPoint"] + Method;
-            string VTexMainApiAppKey = ConfigurationManager.AppSettings["VTexMainApiAppKey"];
-            string VTexMainApiAppPassword = ConfigurationManager.AppSettings["VTexMainApiAppPassword"];
+            string EndPoint = BaseEndPoint + Method;
             HttpWebRequest WebRequest = System.Net.WebRequest.Create(EndPoint) as HttpWebRequest;
             if (WebRequest != null) {
-                WebRequest.Method = "GET";
-                WebRequest.ContentType = "application/json";
-                WebRequest.ServicePoint.Expect100Continue = false;
-                WebRequest.Timeout = 60000;
+                WebRequest.Method = "GET";                
                 SetSsl();
-                WebRequest.Headers.Add("X-VTEX-API-AppKey", VTexMainApiAppKey);
-                WebRequest.Headers.Add("X-VTEX-API-AppToken", VTexMainApiAppPassword);
-                WebRequest.ContentType = "application/json";
-                WebRequest.Accept = "application/json";
+                SetNormalHeaders(ref WebRequest);
                 try {
                     HttpWebResponse resp = (HttpWebResponse)WebRequest.GetResponse();
                     Stream resStream = resp.GetResponseStream();
@@ -75,31 +75,24 @@ namespace VtexCon
                     try {
                         using (var stream = ex.Response.GetResponseStream())
                         using (var reader = new StreamReader(stream)) {
-                            string VerdaderoError = reader.ReadToEnd();
+                            LastHttpError = reader.ReadToEnd();
                             return default;
                         }
                     } catch { }
                 } catch (Exception Ex) {
                     Log.Error(Ex.ToString());
+                    LastHttpError = Ex.ToString();
                 }
             }
             return default;
         }
         public List<T> GetDynamicList<T>(string Method) {
-            string EndPoint = ConfigurationManager.AppSettings["MainEndPoint"] + Method;
-            string VTexMainApiAppKey = ConfigurationManager.AppSettings["VTexMainApiAppKey"];
-            string VTexMainApiAppPassword = ConfigurationManager.AppSettings["VTexMainApiAppPassword"];
+            string EndPoint = BaseEndPoint + Method;
             HttpWebRequest WebRequest = System.Net.WebRequest.Create(EndPoint) as HttpWebRequest;
             if (WebRequest != null) {
-                WebRequest.Method = "GET";
-                WebRequest.ContentType = "application/json";
-                WebRequest.ServicePoint.Expect100Continue = false;
-                WebRequest.Timeout = 60000;
+                WebRequest.Method = "GET";                
                 SetSsl();
-                WebRequest.Headers.Add("X-VTEX-API-AppKey", VTexMainApiAppKey);
-                WebRequest.Headers.Add("X-VTEX-API-AppToken", VTexMainApiAppPassword);
-                WebRequest.ContentType = "application/json";
-                WebRequest.Accept = "application/json";
+                SetNormalHeaders(ref WebRequest);
                 try {
                     HttpWebResponse resp = (HttpWebResponse)WebRequest.GetResponse();
                     Stream resStream = resp.GetResponseStream();
@@ -110,35 +103,30 @@ namespace VtexCon
                     try {
                         using (var stream = ex.Response.GetResponseStream())
                         using (var reader = new StreamReader(stream)) {
-                            string VerdaderoError = reader.ReadToEnd();
+                            LastHttpError = reader.ReadToEnd();
+                            Debug.WriteLine(LastHttpError);
                             return default;
                         }
                     } catch { }
                 } catch (Exception Ex) {
                     Log.Error(Ex.ToString());
+                    LastHttpError = Ex.ToString();
                 }
             }
             return default;
         }
         public T PutDynamic<T>(string Method, T V) {
-            string EndPoint = ConfigurationManager.AppSettings["MainEndPoint"] + Method;
-            string VTexMainApiAppKey = ConfigurationManager.AppSettings["VTexMainApiAppKey"];
-            string VTexMainApiAppPassword = ConfigurationManager.AppSettings["VTexMainApiAppPassword"];
+            string EndPoint = BaseEndPoint + Method;
             HttpWebRequest WebRequest = System.Net.WebRequest.Create(EndPoint) as HttpWebRequest;
             if (WebRequest != null) {
-                WebRequest.Method = "PUT";
-                WebRequest.ContentType = "application/json";
-                WebRequest.ServicePoint.Expect100Continue = false;
-                WebRequest.Timeout = 60000;
+                WebRequest.Method = "PUT";                
                 SetSsl();
-                WebRequest.Headers.Add("X-VTEX-API-AppKey", VTexMainApiAppKey);
-                WebRequest.Headers.Add("X-VTEX-API-AppToken", VTexMainApiAppPassword);
-                WebRequest.ContentType = "application/json";
-                WebRequest.Accept = "application/json";
+                SetNormalHeaders(ref WebRequest);
                 try {
+                    //string PostData = JsonConvert.SerializeObject(V, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore });
                     string PostData = JsonConvert.SerializeObject(V);
-                    byte[] PostByteData = Encoding.Default.GetBytes(PostData);
-                    WebRequest.ContentLength = PostByteData.Length;
+                    byte[] PostByteData = Encoding.UTF8.GetBytes(PostData);
+                    WebRequest.ContentLength = PostByteData.Length;                    
                     Stream RequestStream = WebRequest.GetRequestStream();
                     RequestStream.Write(PostByteData, 0, PostByteData.Length);
                     RequestStream.Close();
@@ -151,34 +139,62 @@ namespace VtexCon
                     try {
                         using (var stream = ex.Response.GetResponseStream())
                         using (var reader = new StreamReader(stream)) {
-                            string VerdaderoError = reader.ReadToEnd();
+                            LastHttpError = reader.ReadToEnd();
                             return default;
                         }
                     } catch { }
                 } catch (Exception Ex) {
                     Log.Error(Ex.ToString());
+                    LastHttpError = Ex.ToString();
+                }
+            }
+            return default;
+        }
+        public R PutDynamic<T, R>(string Method, T V) {
+            string EndPoint = BaseEndPoint + Method;
+            HttpWebRequest WebRequest = System.Net.WebRequest.Create(EndPoint) as HttpWebRequest;
+            if (WebRequest != null) {
+                WebRequest.Method = "PUT";
+                SetSsl();
+                SetNormalHeaders(ref WebRequest);
+                try {
+                    //string PostData = JsonConvert.SerializeObject(V, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore });
+                    string PostData = JsonConvert.SerializeObject(V);
+                    byte[] PostByteData = Encoding.UTF8.GetBytes(PostData);
+                    WebRequest.ContentLength = PostByteData.Length;
+                    Stream RequestStream = WebRequest.GetRequestStream();
+                    RequestStream.Write(PostByteData, 0, PostByteData.Length);
+                    RequestStream.Close();
+                    HttpWebResponse resp = (HttpWebResponse)WebRequest.GetResponse();
+                    Stream resStream = resp.GetResponseStream();
+                    StreamReader reader = new StreamReader(resStream);
+                    string RespuestaJson = reader.ReadToEnd();
+                    return JsonConvert.DeserializeObject<R>(RespuestaJson);
+                } catch (WebException ex) {
+                    try {
+                        using (var stream = ex.Response.GetResponseStream())
+                        using (var reader = new StreamReader(stream)) {
+                            LastHttpError = reader.ReadToEnd();
+                            return default;
+                        }
+                    } catch { }
+                } catch (Exception Ex) {
+                    Log.Error(Ex.ToString());
+                    LastHttpError = Ex.ToString();
                 }
             }
             return default;
         }
         public T PostDynamic<T>(string Method, T V) {
-            string EndPoint = ConfigurationManager.AppSettings["MainEndPoint"] + Method;
-            string VTexMainApiAppKey = ConfigurationManager.AppSettings["VTexMainApiAppKey"];
-            string VTexMainApiAppPassword = ConfigurationManager.AppSettings["VTexMainApiAppPassword"];
+            string EndPoint = BaseEndPoint + Method;
             HttpWebRequest WebRequest = System.Net.WebRequest.Create(EndPoint) as HttpWebRequest;
             if (WebRequest != null) {
-                WebRequest.Method = "POST";
-                WebRequest.ContentType = "application/json";
-                WebRequest.ServicePoint.Expect100Continue = false;
-                WebRequest.Timeout = 60000;
+                WebRequest.Method = "POST";                
                 SetSsl();
-                WebRequest.Headers.Add("X-VTEX-API-AppKey", VTexMainApiAppKey);
-                WebRequest.Headers.Add("X-VTEX-API-AppToken", VTexMainApiAppPassword);
-                WebRequest.ContentType = "application/json";
-                WebRequest.Accept = "application/json";
+                SetNormalHeaders(ref WebRequest);
                 try {
                     string PostData = JsonConvert.SerializeObject(V);
-                    byte[] PostByteData = Encoding.Default.GetBytes(PostData);
+                    byte[] PostByteData = Encoding.UTF8.GetBytes(PostData);
                     WebRequest.ContentLength = PostByteData.Length;
                     Stream RequestStream = WebRequest.GetRequestStream();
                     RequestStream.Write(PostByteData, 0, PostByteData.Length);
@@ -192,15 +208,38 @@ namespace VtexCon
                     try {
                         using (var stream = ex.Response.GetResponseStream())
                         using (var reader = new StreamReader(stream)) {
-                            string VerdaderoError = reader.ReadToEnd();
+                            LastHttpError = reader.ReadToEnd();
                             return default;
                         }
                     } catch { }
                 } catch (Exception Ex) {
                     Log.Error(Ex.ToString());
+                    LastHttpError = Ex.ToString();
                 }
             }
             return default;
+        }
+        public void Delete(string Method) {
+            string EndPoint = BaseEndPoint + Method;
+            HttpWebRequest WebRequest = System.Net.WebRequest.Create(EndPoint) as HttpWebRequest;
+            if (WebRequest != null) {
+                WebRequest.Method = "DELETE";
+                SetSsl();
+                SetNormalHeaders(ref WebRequest);
+                try {
+                    HttpWebResponse resp = (HttpWebResponse)WebRequest.GetResponse();                    
+                } catch (WebException ex) {
+                    try {
+                        using (var stream = ex.Response.GetResponseStream())
+                        using (var reader = new StreamReader(stream)) {
+                            LastHttpError = reader.ReadToEnd();
+                        }
+                    } catch { }
+                } catch (Exception Ex) {
+                    Log.Error(Ex.ToString());
+                    LastHttpError = Ex.ToString();
+                }
+            }
         }
     }
 }

@@ -1,0 +1,6 @@
+C:\Users\HCampos_C\Documents\ws_vd\VtexCon\Vital.VtexBranchSync\bin\Debug\Vital.VtexBranchSync.exe.config
+C:\Users\HCampos_C\Documents\ws_vd\VtexCon\Vital.VtexBranchSync\bin\Debug\Vital.VtexBranchSync.exe
+C:\Users\HCampos_C\Documents\ws_vd\VtexCon\Vital.VtexBranchSync\bin\Debug\Vital.VtexBranchSync.pdb
+C:\Users\HCampos_C\Documents\ws_vd\VtexCon\Vital.VtexBranchSync\obj\Debug\Vital.VtexBranchSync.csprojAssemblyReference.cache
+C:\Users\HCampos_C\Documents\ws_vd\VtexCon\Vital.VtexBranchSync\obj\Debug\Vital.VtexBranchSync.exe
+C:\Users\HCampos_C\Documents\ws_vd\VtexCon\Vital.VtexBranchSync\obj\Debug\Vital.VtexBranchSync.pdb

@@ -59,6 +59,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commons\Commons.cs" />
     <Compile Include="FrmCatTree.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -113,9 +114,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\VitalVtexCon.csproj">
+    <ProjectReference Include="..\Vital.Oracle.Services\Vital.Oracle.Services.csproj">
+      <Project>{97c4655e-96ee-4420-b431-da1d230b1688}</Project>
+      <Name>Vital.Oracle.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Vital.VtexCon.csproj">
       <Project>{e0368958-2057-4343-aeeb-313c0791308e}</Project>
-      <Name>VitalVtexCon</Name>
+      <Name>Vital.VtexCon</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

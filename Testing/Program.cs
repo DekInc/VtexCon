@@ -9,9 +9,9 @@ using VtexCon.Models;
 namespace Testing {
     class Program {
         static void Main(string[] args) {
-            ApiVtex ApiVtexO = new ApiVtex();
-            List<Brand> ListBrands = ApiVtexO.GetBrands();
-            Console.WriteLine(ListBrands.Count);
+            //ApiVtex ApiVtexO = new ApiVtex();
+            //List<Brand> ListBrands = ApiVtexO.GetBrands();
+            //Console.WriteLine(ListBrands.Count);
             Console.ReadLine();
         }
     }

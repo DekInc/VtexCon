@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Vital.Oracle.Services</RootNamespace>
     <AssemblyName>Vital.Oracle.Services</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -48,6 +49,9 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net, Version=2.0.12.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.12\lib\net45\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Oracle.ManagedDataAccess, Version=4.122.19.1, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL">
       <HintPath>..\packages\Oracle.ManagedDataAccess.19.6.0\lib\net40\Oracle.ManagedDataAccess.dll</HintPath>
     </Reference>
@@ -57,11 +61,13 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiOracle.cs" />
     <Compile Include="DataMapper.cs" />
     <Compile Include="DataParameterAttribute.cs" />
     <Compile Include="DBAccess.cs" />
@@ -74,7 +80,15 @@
     <Compile Include="Logging\Logger.cs" />
     <Compile Include="Logging\PerformanceTracker.cs" />
     <Compile Include="Model\BaseModel.cs" />
+    <Compile Include="Model\GetTokens.cs" />
+    <Compile Include="Model\SetProduct.cs" />
+    <Compile Include="Model\SpRet.cs" />
+    <Compile Include="Model\VtexStock.cs" />
+    <Compile Include="Model\VtexNewSku.cs" />
     <Compile Include="Model\ReporteElectronicoCAEAModel.cs" />
+    <Compile Include="Model\String2.cs" />
+    <Compile Include="Model\VtexCatalog.cs" />
+    <Compile Include="Model\VtexProduct.cs" />
     <Compile Include="OracleProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\CAEARepository.cs" />
@@ -83,12 +97,18 @@
     <Compile Include="Repositories\Contracts\IConfigurationRepository.cs" />
     <Compile Include="Repositories\Contracts\ILogGeneralRepository.cs" />
     <Compile Include="Repositories\LogGeneralRepository.cs" />
+    <Compile Include="Util\Common.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Vital.VtexCon.csproj">
+      <Project>{e0368958-2057-4343-aeeb-313c0791308e}</Project>
+      <Name>Vital.VtexCon</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
